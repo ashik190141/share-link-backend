@@ -5,6 +5,8 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const router = require("./app/module/route/route");
+const { backendUrl } = require("./app/config");
+const { redirectLink } = require("./app/module/file/file.controller");
 
 dotenv.config();
 const port = process.env.port || 5000;
@@ -16,8 +18,8 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
-    credentials: true
+    origin: "https://dazzling-pithivier-fdb1d7.netlify.app",
+    credentials: true,
   })
 );
 
@@ -36,6 +38,7 @@ mongoose
 });
 
 app.use("/api/v1", router);
+app.get(`/file/share/:id`, redirectLink);
 
 app.get("/", (req, res) => {
   res.send("Project is running!");

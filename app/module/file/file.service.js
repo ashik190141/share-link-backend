@@ -103,6 +103,8 @@ const getUrl = async (id, email, payload) => {
 
     let shareableUrl = `${backendUrl}/file/share/${uniqueShareId}`;
 
+    // console.log(shareableUrl);
+
     return shareableUrl;
   } catch (err) {
     console.log(err.message);
@@ -128,11 +130,11 @@ const getOriginalFile = async (shareId, authorizationToken) => {
 
     const decodedToken = jwt.decode(link.token);
 
-    // const decoded = jwt.verify(authorizationToken, jwtSecret);
+    const decoded = jwt.verify(authorizationToken, jwtSecret);
 
-    // if (decoded.email !== link.userEmail) {
-    //   throw new Error("Unauthorized access: Token does not match owner");
-    // }
+    if (decoded.email !== link.userEmail) {
+      throw new Error("Unauthorized access: Token does not match owner");
+    }
 
     const currentTime = Math.floor(Date.now() / 1000);
 
